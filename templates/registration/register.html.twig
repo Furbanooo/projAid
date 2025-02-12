@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<div class="max-w-md mx-auto bg-white shadow-lg rounded-lg p-6">
+    <h2 class="text-2xl font-bold mb-4">Register</h2>
+    {{ form_start(registrationForm) }}
+        <div class="mb-4">
+            {{ form_label(registrationForm.username) }}
+            {{ form_widget(registrationForm.username, {'attr': {'class': 'form-input mt-1 block w-full'}}) }}
+            {{ form_errors(registrationForm.username) }}
+        </div>
+        <div class="mb-4">
+            {{ form_label(registrationForm.email) }}
+            {{ form_widget(registrationForm.email, {'attr': {'class': 'form-input mt-1 block w-full'}}) }}
+            {{ form_errors(registrationForm.email) }}
+        </div>
+        <div class="mb-4">
+            {{ form_label(registrationForm.plainPassword.first) }}
+            {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'form-input mt-1 block w-full'}}) }}
+            {{ form_errors(registrationForm.plainPassword.first) }}
+        </div>
+        <div class="mb-4">
+            {{ form_label(registrationForm.plainPassword.second) }}
+            {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'form-input mt-1 block w-full'}}) }}
+            {{ form_errors(registrationForm.plainPassword.second) }}
+        </div>
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Register</button>
+    {{ form_end(registrationForm) }}
+</div>
+{% endblock %}

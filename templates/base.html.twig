@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'><text y='1.2em' font-size='96'>⚫️</text><text y='1.3em' x='0.2em' font-size='76' fill='%23fff'>sf</text></svg>">
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+        {% block stylesheets %}
+        {% endblock %}
+    </head>
+    <body class="bg-gray-100 text-gray-900">
+        <nav class="bg-gray-800 p-4">
+            <div class="container mx-auto flex justify-between items-center">
+                <a href="{{ path('home') }}" class="text-white text-lg font-semibold">MyApp</a>
+                <div class="flex items-center">
+                    {% if app.user %}
+                        <div class="ml-4 relative">
+                            <button class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium focus:outline-none" id="account-menu-button" aria-expanded="false" aria-haspopup="true">
+                                {{ app.user.username }}
+                            </button>
+                            <div class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 hidden" role="menu" aria-orientation="vertical" aria-labelledby="account-menu-button" id="account-menu">
+                                <a href="{{ path('app_user_profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Profile</a>
+                                <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Logout</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="ml-4 relative">
+                            <button class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium focus:outline-none" id="account-menu-button" aria-expanded="false" aria-haspopup="true">
+                                Account
+                            </button>
+                            <div class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 hidden" role="menu" aria-orientation="vertical" aria-labelledby="account-menu-button" id="account-menu">
+                                <a href="{{ path('app_login') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Login</a>
+                                <a href="{{ path('app_register') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Register</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+        <main class="container mx-auto mt-8">
+            {% block body %}{% endblock %}
+        </main>
+        <script>
+            document.getElementById('account-menu-button').addEventListener('click', function() {
+                var menu = document.getElementById('account-menu');
+                menu.classList.toggle('hidden');
+            });
+        </script>
+    </body>
+</html>

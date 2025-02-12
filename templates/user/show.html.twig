@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ user.username }}{% endblock %}
+
+{% block body %}
+<h1>{{ user.username }}</h1>
+<p>{{ user.email }}</p>
+
+<h2>Initiated Projects</h2>
+<ul>
+    {% for project in user.initiatedProjects %}
+        <li><a href="{{ path('project_show', {id: project.id}) }}">{{ project.title }}</a></li>
+    {% endfor %}
+</ul>
+
+<h2>Contributed Projects</h2>
+<ul>
+    {% for project in user.contributedProjects %}
+        <li><a href="{{ path('project_show', {id: project.id}) }}">{{ project.title }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

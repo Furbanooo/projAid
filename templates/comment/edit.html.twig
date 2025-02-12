@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Comment{% endblock %}
+
+{% block body %}
+<h1>Edit Comment</h1>
+<form method="post">
+    <textarea name="content" required>{{ comment.content }}</textarea>
+    <button type="submit">Save</button>
+</form>
+{% endblock %}

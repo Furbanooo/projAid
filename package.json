@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "build:css": "tailwindcss build assets/styles.css -o public/build/styles.css"
+  }
+}

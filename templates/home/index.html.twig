@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+<h1 class="text-3xl font-bold mb-4">Projects</h1>
+<ul class="list-disc pl-5">
+    {% if projects is empty %}
+        <li class="mb-2">No projects found. Please check back later!</li>
+    {% else %}
+        {% for project in projects %}
+            <li class="mb-2">
+                <a href="{{ path('project_show', {id: project.id}) }}" class="text-blue-500 hover:underline">{{ project.title }}</a>
+                <div class="mt-2">
+                    <a href="{{ path('project_like', {id: project.id}) }}" class="text-green-500 hover:underline">Like</a>
+                    <a href="{{ path('project_comment', {id: project.id}) }}" class="text-yellow-500 hover:underline ml-4">Comment</a>
+                    <a href="{{ path('project_contribute', {id: project.id}) }}" class="text-red-500 hover:underline ml-4">Contribute</a>
+                </div>
+            </li>
+        {% endfor %}
+    {% endif %}
+</ul>
+<a href="{{ path('project_new') }}" class="mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Create new project</a>
+{% endblock %}
