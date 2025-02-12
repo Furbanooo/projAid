@@ -1,24 +1,89 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Profile{% endblock %}
+{% block title %}Profile - {{ user.username }}{% endblock %}
 
 {% block body %}
-<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8">
-        <div>
-            <h1 class="text-center text-3xl font-extrabold text-gray-900">Profile</h1>
-        </div>
-        <div class="mt-8 space-y-6">
-            <div class="rounded-md shadow-sm -space-y-px">
-                <div class="py-2">
-                    <label for="username" class="sr-only">Username</label>
-                    <input type="text" id="username" name="username" value="{{ user.username }}" readonly class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
-                </div>
-                <div class="py-2">
-                    <label for="email" class="sr-only">Email</label>
-                    <input type="email" id="email" name="email" value="{{ user.email }}" readonly class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+<div class="container mx-auto px-4 py-8">
+    <!-- Profile Header -->
+    <div class="bg-white shadow rounded-lg mb-8 p-6">
+        <div class="flex items-center space-x-6">
+            <div class="bg-gray-200 rounded-full p-6">
+                <span class="text-4xl">{{ user.username|slice(0,1)|upper }}</span>
+            </div>
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900">{{ user.username }}</h1>
+                <p class="text-gray-600">{{ user.email }}</p>
+                <div class="mt-2 flex space-x-4">
+                    <span class="text-sm text-gray-500">
+                        <strong>{{ user.initiatedProjects|length }}</strong> projects initiated
+                    </span>
+                    <span class="text-sm text-gray-500">
+                        <strong>{{ user.contributedProjects|length }}</strong> projects contributed to
+                    </span>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Grid -->
+    <div class="grid md:grid-cols-2 gap-8">
+        <!-- Initiated Projects -->
+        <div class="bg-white shadow rounded-lg p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold text-gray-900">Projects Initiated</h2>
+                <a href="{{ path('project_new') }}" class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm hover:bg-indigo-700">
+                    Create Project
+                </a>
+            </div>
+            {% if user.initiatedProjects is empty %}
+                <p class="text-gray-500 text-center py-4">No projects initiated yet.</p>
+            {% else %}
+                <div class="space-y-4">
+                    {% for project in user.initiatedProjects %}
+                        <div class="border rounded-lg p-4 hover:bg-gray-50">
+                            <a href="{{ path('project_show', {id: project.id}) }}" class="block">
+                                <h3 class="font-semibold text-indigo-600">{{ project.title }}</h3>
+                                <p class="text-gray-600 text-sm mt-1">{{ project.description|slice(0, 100) }}...</p>
+                                <div class="mt-2 flex justify-between items-center">
+                                    <span class="text-sm text-gray-500">
+                                        Created {{ project.createdAt|date('M d, Y') }}
+                                    </span>
+                                    <span class="text-sm text-gray-500">
+                                        {{ project.contributors|length }} contributors
+                                    </span>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Contributed Projects -->
+        <div class="bg-white shadow rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">Projects Contributing To</h2>
+            {% if user.contributedProjects is empty %}
+                <p class="text-gray-500 text-center py-4">No projects contributed to yet.</p>
+            {% else %}
+                <div class="space-y-4">
+                    {% for project in user.contributedProjects %}
+                        <div class="border rounded-lg p-4 hover:bg-gray-50">
+                            <a href="{{ path('project_show', {id: project.id}) }}" class="block">
+                                <h3 class="font-semibold text-indigo-600">{{ project.title }}</h3>
+                                <p class="text-gray-600 text-sm mt-1">{{ project.description|slice(0, 100) }}...</p>
+                                <div class="mt-2 flex justify-between items-center">
+                                    <span class="text-sm text-gray-500">
+                                        Initiated by {{ project.initiator.username }}
+                                    </span>
+                                    <span class="text-sm text-gray-500">
+                                        {{ project.contributors|length }} contributors
+                                    </span>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>

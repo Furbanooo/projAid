@@ -37,20 +37,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinTable(name:"user_project")]
     private Collection $contributedProjects;
 
-    // Comments made by the user
-    #[ORM\OneToMany(mappedBy:"user", targetEntity:Comment::class)]
-    private Collection $comments;
-
-    // Likes given by the user
-    #[ORM\OneToMany(mappedBy:"user", targetEntity:Like::class)]
-    private Collection $likes;
-
     public function __construct()
     {
         $this->initiatedProjects = new ArrayCollection();
         $this->contributedProjects = new ArrayCollection();
-        $this->comments = new ArrayCollection();
-        $this->likes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -157,54 +147,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeContributedProject(Project $project): self
     {
         $this->contributedProjects->removeElement($project);
-        return $this;
-    }
-
-    public function getComments(): Collection
-    {
-        return $this->comments;
-    }
-
-    public function addComment(Comment $comment): self
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments[] = $comment;
-            $comment->setUser($this);
-        }
-        return $this;
-    }
-
-    public function removeComment(Comment $comment): self
-    {
-        if ($this->comments->removeElement($comment)) {
-            if ($comment->getUser() === $this) {
-                $comment->setUser(null);
-            }
-        }
-        return $this;
-    }
-
-    public function getLikes(): Collection
-    {
-        return $this->likes;
-    }
-
-    public function addLike(Like $like): self
-    {
-        if (!$this->likes->contains($like)) {
-            $this->likes[] = $like;
-            $like->setUser($this);
-        }
-        return $this;
-    }
-
-    public function removeLike(Like $like): self
-    {
-        if ($this->likes->removeElement($like)) {
-            if ($like->getUser() === $this) {
-                $like->setUser(null);
-            }
-        }
         return $this;
     }
 }

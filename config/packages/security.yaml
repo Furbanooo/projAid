@@ -38,7 +38,9 @@ security:
   access_control:
     - { path: ^/login, roles: PUBLIC_ACCESS }
     - { path: ^/register, roles: PUBLIC_ACCESS }
-    - { path: ^/, roles: ROLE_USER }
+    - { path: ^/project/new, roles: ROLE_USER }
+    - { path: ^/project/[0-9]+/(like|comment|contribute), roles: ROLE_USER, }
+    - { path: ^/, roles: PUBLIC_ACCESS }
 
 when@test:
   security:
